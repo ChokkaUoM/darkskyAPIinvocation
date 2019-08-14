@@ -80,17 +80,25 @@ public class DarkSkyScheduler {
         LOG.info("Scheduler is ruuning on -{}", new Date().toString());
         
         String currentDate = simpleDateFormat.format(new Date());
+    
         
-        checkAndStore(IdGenerator.generateId(campbelLatitude, campbelLongitude), "CA", "Cambel", currentDate);
-        checkAndStore(IdGenerator.generateId(omahaLatitude, omahaLongitude), "NE", "Omaha", currentDate);
-        checkAndStore(IdGenerator.generateId(austinLatitude, austinLongitude), "TX", "Austin", currentDate);
-        checkAndStore(IdGenerator.generateId(nisekaLatitude, nisekaLongitude), "Japan", "Niseko", currentDate);
-        checkAndStore(IdGenerator.generateId(naraLatitude, naraLongitude), "Japan", "Nara", currentDate);
-        checkAndStore(IdGenerator.generateId(jakartaLatitude, jakartaLongitude), "Indonesia", "Jakarta", currentDate);
+        checkAndStore(IdGenerator.generateId(campbelLatitude, campbelLongitude), campbelLatitude,
+        		campbelLongitude, "CA", "Cambel", currentDate);
+        checkAndStore(IdGenerator.generateId(omahaLatitude, omahaLongitude), omahaLatitude,
+        		campbelLatitude, "NE", "Omaha", currentDate);
+        checkAndStore(IdGenerator.generateId(austinLatitude, austinLongitude), austinLatitude,
+        		austinLongitude, "TX", "Austin", currentDate);
+        checkAndStore(IdGenerator.generateId(nisekaLatitude, nisekaLongitude), nisekaLatitude,
+        		nisekaLongitude, "Japan", "Niseko", currentDate);
+        checkAndStore(IdGenerator.generateId(naraLatitude, naraLongitude), naraLatitude,
+        		naraLongitude, "Japan", "Nara", currentDate);
+        checkAndStore(IdGenerator.generateId(jakartaLatitude, jakartaLongitude), jakartaLatitude,
+        		jakartaLongitude, "Indonesia", "Jakarta", currentDate);
         
     }
 	
-	private void checkAndStore(String id, String country, String city, String currentDate){
+	private void checkAndStore(String id, String latitude, String longitude,
+			String country, String city, String currentDate){
 		
 		WeatherData oldWeatherData = weatherService.findWeatherData(id); 
 		if( oldWeatherData != null){
@@ -98,11 +106,11 @@ public class DarkSkyScheduler {
 				LOG.info("WeatherData already exist. No need to call darksky API");
 			}else{
 				LOG.info("Update - Darksky API is calling for id-{}, date-{}", id, currentDate);
-				storeWeatherData(callDarkSkyAPI(campbelLatitude, campbelLongitude), id, country, city, currentDate);
+				storeWeatherData(callDarkSkyAPI(latitude, longitude), id, country, city, currentDate);
 			}
 		}else{
 			LOG.info("Insert - Darksky API is calling for id-{}, date-{}", id, currentDate);
-			storeWeatherData(callDarkSkyAPI(campbelLatitude, campbelLongitude), id, country, city, currentDate);
+			storeWeatherData(callDarkSkyAPI(latitude, longitude), id, country, city, currentDate);
 		}
 	}
 	
