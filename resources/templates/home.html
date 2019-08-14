@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><title>Home Page</title></head>
+<body>
+<h1>Welcome to <span th:text="${appName}">Our App</span></h1>
+
+<table border="1" style="width:300px">
+    <thead>
+        <tr>
+            <th> Country </th>
+            <th> City </th>
+            <th> Wind Speed </th>
+            <th> Temperature </th>
+            <th> Pressure </th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${reports.empty}">
+            <td colspan="2"> No Weather Reports Available </td>
+        </tr>
+        <tr th:each="report : ${reports}">
+            <td><span th:text="${report.country}"> Country </span></td>
+            <td><span th:text="${report.city}"> City </span></td>
+            <td><span th:text="${report.currently.windSpeed}"> Wind Speed </span></td>
+            <td><span th:text="${report.currently.temperature}"> Temperature </span></td>
+            <td><span th:text="${report.currently.pressure}"> Pressure </span></td> 
+            <td><span th:text="${report.id}"> Id </span></td> 
+        </tr>
+    </tbody>
+    
+</table>
+
+</body>
+
+</html>
